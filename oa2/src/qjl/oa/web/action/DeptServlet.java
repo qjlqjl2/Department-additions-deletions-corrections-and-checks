@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import qjl.oa.DBUtil;
 import qjl.oa.bean.Dept;
 
@@ -22,18 +23,24 @@ import java.util.List;
 public class DeptServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String servletPath = req.getServletPath();
-        if("/dept/list".equals(servletPath)){
-            doList(req, resp);
-        }else if("/dept/detail".equals(servletPath)){
-            doDetail(req, resp);
-        }else if("/dept/delete".equals(servletPath)){
-            doDel(req, resp);
-        }else if("/dept/save".equals(servletPath)){
-            doSave(req, resp);
-        }else if("/dept/modify".equals(servletPath)){
-            doModify(req, resp);
+        HttpSession session = req.getSession(false);
+        if(session!=null&&session.getAttribute("username")!=null){
+            String servletPath = req.getServletPath();
+            if("/dept/list".equals(servletPath)){
+                doList(req, resp);
+            }else if("/dept/detail".equals(servletPath)){
+                doDetail(req, resp);
+            }else if("/dept/delete".equals(servletPath)){
+                doDel(req, resp);
+            }else if("/dept/save".equals(servletPath)){
+                doSave(req, resp);
+            }else if("/dept/modify".equals(servletPath)){
+                doModify(req, resp);
+            }
+        }else{
+            resp.sendRedirect(req.getContextPath());
         }
+
     }
 
     private void doModify(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

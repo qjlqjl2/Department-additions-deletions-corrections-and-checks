@@ -8,6 +8,8 @@
 		<title>部门列表页面</title>
 	</head>
 	<body>
+	<h3>欢迎<%=session.getAttribute("username")%></h3>
+	<a href="<%=request.getContextPath()%>/user/exit">[退出系统]</a>
 
 	<script type="text/javascript">
 		function del(dno){
