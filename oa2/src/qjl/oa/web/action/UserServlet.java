@@ -2,10 +2,7 @@ package qjl.oa.web.action;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import qjl.oa.DBUtil;
 
 import java.io.IOException;
@@ -62,6 +59,17 @@ public class UserServlet extends HttpServlet {
         if(success){
             HttpSession session = req.getSession();
             session.setAttribute("username", username);
+            String f = req.getParameter("flag");
+            if("1".equals(f)){
+                Cookie cookie1 = new Cookie("username", username);
+                Cookie cookie2 = new Cookie("password", password);
+                cookie1.setMaxAge(60*60*24*10);
+                cookie2.setMaxAge(60*60*24*10);
+                cookie1.setPath(req.getContextPath());
+                cookie2.setPath(req.getContextPath());
+                resp.addCookie(cookie1);
+                resp.addCookie(cookie2);
+            }
             resp.sendRedirect(req.getContextPath()+"/dept/list");
         }else{
             resp.sendRedirect(req.getContextPath()+"/error.html");
