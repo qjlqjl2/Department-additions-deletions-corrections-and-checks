@@ -26,6 +26,14 @@ public class UserServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         if(session!=null){
             session.invalidate();
+            Cookie[] cookies = req.getCookies();
+            if(cookies!=null){
+                for(Cookie cookie : cookies){
+                        cookie.setMaxAge(0);
+                        cookie.setPath(req.getContextPath());
+                        resp.addCookie(cookie);
+                }
+            }
             resp.sendRedirect(req.getContextPath());
         }
     }

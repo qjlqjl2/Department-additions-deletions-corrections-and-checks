@@ -1,15 +1,17 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@page import="java.util.List, qjl.oa.bean.Dept"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset='utf-8'>
 		<title>部门列表页面</title>
+		<base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/">
 	</head>
 	<body>
-	<h3>欢迎<%=session.getAttribute("username")%></h3>
-	<a href="<%=request.getContextPath()%>/user/exit">[退出系统]</a>
+	<h3>欢迎$(username)</h3>
+	<a href="/user/exit">[退出系统]</a>
 
 	<script type="text/javascript">
 		function del(dno){
@@ -30,37 +32,22 @@
 				<th>部门名称</th>
 				<th>操作</th>
 			</tr>
+			<c:forEach items="${deptList}" varStatus="deptStatus" var="dept">
+				<tr>
+					<td>$(deptStatus.count)</td>
+					<td>$(dept.deptno)</td>
+					<td>$(dept.dname)</td>
+					<td>
+						<a href ="javascript:void(0)" onclick="del(${dept.deptno})">删除</a>
+						<a href ="/dept/detail?f=m&dno=${dept.deptno}">修改</a>
+						<a href ="/dept/detail?f=d&dno=${dept.deptno}">详情</a>
+					</td>
+				</tr>
 
-			<%
-				List<Dept> deptList = (List<Dept>)request.getAttribute("deptList");
-				int i = 0;
-				for(Dept dept:deptList){
-			%>
-			<tr>
-				<td><%=++i%></td>
-				<td><%=dept.getDeptno()%></td>
-				<td><%=dept.getDname()%></td>
-				<td>
-					<a href ="javascript:void(0)" onclick="del(<%=dept.getDeptno()%>)">删除</a>
-					<a href ="<%=request.getContextPath()%>/dept/detail?f=m&dno=<%=dept.getDeptno()%>">修改</a>
-					<a href ="<%=request.getContextPath()%>/dept/detail?f=d&dno=<%=dept.getDeptno()%>">详情</a>
-				</td>
-			</tr>
-			<%
-				}
-			%>
-
-
-
-
-
-
-
-
-
+			</c:forEach>
 		</table>
 		<hr >
-		<a href='<%=request.getContextPath()%>/add.jsp'>新增部门</a>
+		<a href='/add.jsp'>新增部门</a>
 		
 	</body>
 </html>
