@@ -23,22 +23,17 @@ import java.util.List;
 public class DeptServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        if(session!=null&&session.getAttribute("username")!=null){
-            String servletPath = req.getServletPath();
-            if("/dept/list".equals(servletPath)){
-                doList(req, resp);
-            }else if("/dept/detail".equals(servletPath)){
-                doDetail(req, resp);
-            }else if("/dept/delete".equals(servletPath)){
-                doDel(req, resp);
-            }else if("/dept/save".equals(servletPath)){
-                doSave(req, resp);
-            }else if("/dept/modify".equals(servletPath)){
-                doModify(req, resp);
-            }
-        }else{
-            resp.sendRedirect(req.getContextPath()+"/index.jsp");
+        String servletPath = req.getServletPath();
+        if("/dept/list".equals(servletPath)){
+            doList(req, resp);
+        }else if("/dept/detail".equals(servletPath)){
+            doDetail(req, resp);
+        }else if("/dept/delete".equals(servletPath)){
+            doDel(req, resp);
+        }else if("/dept/save".equals(servletPath)){
+            doSave(req, resp);
+        }else if("/dept/modify".equals(servletPath)){
+            doModify(req, resp);
         }
 
     }
