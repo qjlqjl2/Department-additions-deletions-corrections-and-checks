@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import qjl.oa.DBUtil;
+import qjl.oa.bean.User;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ public class UserServlet extends HttpServlet {
     protected void doExit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if(session!=null){
+            session.removeAttribute("user");
             session.invalidate();
             Cookie[] cookies = req.getCookies();
             if(cookies!=null){
@@ -66,7 +68,8 @@ public class UserServlet extends HttpServlet {
 
         if(success){
             HttpSession session = req.getSession();
-            session.setAttribute("username", username);
+            User user = new User(username, password);
+            session.setAttribute("user", user);
             String f = req.getParameter("flag");
             if("1".equals(f)){
                 Cookie cookie1 = new Cookie("username", username);

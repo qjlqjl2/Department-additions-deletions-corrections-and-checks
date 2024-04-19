@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import qjl.oa.DBUtil;
+import qjl.oa.bean.User;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -52,7 +53,8 @@ public class WelcomeServlet extends HttpServlet {
 
             if(success){
                 HttpSession session = req.getSession();
-                session.setAttribute("username", username);
+                User user = new User(username, password);
+                session.setAttribute("user", user);
                 resp.sendRedirect(req.getContextPath()+"/dept/list");
             }else{
                 resp.sendRedirect(req.getContextPath()+"/index.jsp");
